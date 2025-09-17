@@ -34,6 +34,18 @@ Create your environment configuration files by copying from the provided example
 cp .env.example .env
 ```
 
+### 3. Database Seeding
+
+To fill up the database with dummy data, run command
+
+```bash
+pnpm run db:seed
+```
+
+These are creds for admin and user
+Admin:- email = admin@example.com, pass = Admin@123
+User:- email = user1@example.com, pass = User1@123
+
 #### Required Environment Variables
 
 Update your `.env` file with the following required configurations:
