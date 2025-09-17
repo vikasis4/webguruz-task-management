@@ -51,7 +51,7 @@ Update your `.env` file with the following required configurations:
 
 > **💡 Note**: If you don't have a Redis instance, you can:
 >
-> - Use the Redis URI
+> - Use the Redis URI provided in `.env.example`
 > - Or run a local Redis instance using Docker:
 >   ```bash
 >   docker run -d -p 6379:6379 redis:alpine
