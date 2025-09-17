@@ -9,7 +9,10 @@ const parseQuery = (query: { [key: string]: string | number }) => {
 
 const taskApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    fetchTasks: build.query({
+    fetchTasks: build.query<
+      ITaskDto["fetch"]["resp"],
+      ITaskDto["fetch"]["req"]
+    >({
       query: (query) => ({
         url: `/tasks?${parseQuery(query)}`,
         method: "GET",

@@ -59,7 +59,7 @@ class AuthController {
     return {
       status: 200,
       message: "Verified",
-      data: {},
+      data: { user: req.user },
     };
   }
 

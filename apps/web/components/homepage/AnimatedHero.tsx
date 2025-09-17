@@ -6,9 +6,11 @@ import { motion } from "framer-motion";
 import { useAppSelector } from "@/store/store.hppks";
 
 export default function AnimatedHero() {
-  const isAuthenticated = useAppSelector(
-    (state) => state.authSlice.isAuthenticated
-  );
+  const authData = useAppSelector((state) => state.authSlice);
+
+  const isAuthenticated = authData.isAuthenticated;
+  const isAdmin = authData.user?.role === "admin";
+
   return (
     <section className="flex-1 flex flex-col items-center justify-center px-6 py-20 text-center bg-gradient-to-b from-gray-50 to-white">
       <motion.h2
@@ -30,9 +32,18 @@ export default function AnimatedHero() {
       </motion.p>
       <div className="flex gap-4">
         {isAuthenticated ? (
-          <Link href="/dashboard">
-            <Button size="lg">Go To Dashboard</Button>
-          </Link>
+          <div className="flex gap-4">
+            {isAdmin && (
+              <Link href="/dashboard/users">
+                <Button size="lg">View Users</Button>
+              </Link>
+            )}
+            <Link href="/dashboard/tasks">
+              <Button variant={"outline"} size="lg">
+                View Tasks
+              </Button>
+            </Link>
+          </div>
         ) : (
           <>
             <Link href="/auth/signup">

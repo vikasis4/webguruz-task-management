@@ -23,8 +23,8 @@ export default function Navbar() {
         <nav className="flex items-center gap-4">
           {isAuthenticated ? (
             <>
-              <Link href="/dashboard">
-                <Button variant="outline">Dashboard</Button>
+              <Link href="/dashboard/tasks">
+                <Button variant="outline">Tasks</Button>
               </Link>
 
               <Button onClick={logout} variant={"destructive"}>

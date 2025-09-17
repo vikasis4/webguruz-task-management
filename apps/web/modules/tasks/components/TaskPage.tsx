@@ -54,6 +54,7 @@ export default function TasksPage() {
       />
 
       <TasksTable
+        totalTasks={data?.data.totalTasks || 0}
         tasks={data?.data?.tasks || []}
         isLoading={isLoading}
         selectedTasks={selectedTasks}

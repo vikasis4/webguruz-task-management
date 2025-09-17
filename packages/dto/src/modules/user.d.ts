@@ -1,4 +1,8 @@
 export type IUserRole = "admin" | "user";
+export enum UserRole {
+  Admin = "admin",
+  User = "user",
+}
 
 export interface IUserMethods {
   setPassword(password: string): Promise<void>;

@@ -2,23 +2,23 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/hooks/useAuth";
+import { useAppSelector } from "@/store/store.hppks";
 
 export default function withAdminAuth<P extends object>(
   WrappedComponent: React.ComponentType<P>
 ) {
   const ComponentWithAdminAuth = (props: P) => {
     const router = useRouter();
-    const { user, isLoading } = useAuth();
+
+    const authData = useAppSelector((state) => state.authSlice);
 
     useEffect(() => {
-      if (isLoading) return;
+      if (!authData.isAuthenticated || authData.user?.role !== "admin")
+        router.push("/");
+    }, [authData, router]);
 
-      if (!user || user.role !== "Admin") router.push("/");
-    }, [user, isLoading, router]);
-
-    if (isLoading || !user || user.role !== "Admin")
-      return <div>Loading...</div>;
+    if (!authData.isAuthenticated || authData.user?.role !== "admin")
+      return null;
 
     return <WrappedComponent {...props} />;
   };

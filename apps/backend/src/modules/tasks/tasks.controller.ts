@@ -9,16 +9,24 @@ class TaskController {
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 5;
     const skip = (page - 1) * limit;
-    logger.debug(`page: ${page}, limit: ${limit}, skip: ${skip}`);
 
-    const tasks = await Task.find().sort({ _id: -1 }).skip(skip).limit(limit);
+    const isAdmin = req.user?.role === "admin";
 
-    const totalTasks = await Task.countDocuments();
+    const tasks = await Task.find({
+      ...(isAdmin ? {} : { createdBy: req.user?.userId }),
+    })
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const totalTasks = await Task.countDocuments({
+      ...(isAdmin ? {} : { createdBy: req.user?.userId }),
+    });
     const totalPages = Math.ceil(totalTasks / limit);
 
     return {
       status: 200,
-      data: { tasks, totalPages, page, limit },
+      data: { tasks, totalPages, page, limit, totalTasks },
       message: "Fetched tasks successful",
     };
   }

@@ -23,7 +23,7 @@ export default function SessionProvider({
   const pathname = usePathname();
 
   useEffect(() => {
-    if (isAuthenticated && pathname.includes("auth")) router.push("/dashboard");
+    if (isAuthenticated && pathname.includes("auth")) router.push("/");
   }, [isAuthenticated, pathname, router]);
 
   useEffect(() => {
@@ -31,8 +31,8 @@ export default function SessionProvider({
       try {
         const response = await axiosClient.get("/auth/verify");
 
-        if (response.data && response.data.status == 200)
-          dispatch(authActions.setUser(response.data.user));
+        if (response.data && response.data?.status == 200)
+          dispatch(authActions.setUser(response?.data?.data?.user));
       } catch (error) {
         console.error("Session verification failed:", error);
       } finally {

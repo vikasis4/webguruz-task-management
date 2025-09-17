@@ -7,6 +7,7 @@ import { Users } from "lucide-react";
 import SearchFilter from "./UserSearchFilter";
 import StatsCards from "./UserStatsCard";
 import UsersGrid from "./UserGrid";
+import withAdminAuth from "@/components/auth/withAdminAuth";
 
 function UsersList() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -60,7 +61,7 @@ function UsersList() {
     </div>
   );
 }
-export default UsersList;
+export default withAdminAuth(UsersList);
 
 export function Header() {
   return (

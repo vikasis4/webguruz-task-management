@@ -7,8 +7,6 @@ export const makeStore = () => {
     reducer: {
       [baseApi.reducerPath]: baseApi.reducer,
       [authSlice.name]: authSlice.reducer,
-      // Add your reducers here
-      // tasks: taskReducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(baseApi.middleware),

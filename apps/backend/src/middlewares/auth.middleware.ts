@@ -52,7 +52,6 @@ export const apiKey = (req: Request, res: Response, next: NextFunction) => {
         data: {},
         message: "Unauthorized",
       });
-    logger.debug("WORKING");
 
     next();
   } catch (err: any) {

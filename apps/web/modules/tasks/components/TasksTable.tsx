@@ -10,12 +10,14 @@ interface TasksTableProps {
   selectedTasks: Set<string>;
   toggleTaskSelection: (id: string) => void;
   toggleSelectAll: (ids: string[], checked: boolean) => void;
+  totalTasks: number;
 }
 
 export default function TasksTable({
   tasks,
   isLoading,
   selectedTasks,
+  totalTasks,
   toggleTaskSelection,
   toggleSelectAll,
 }: TasksTableProps) {
@@ -30,7 +32,7 @@ export default function TasksTable({
           <div className="flex items-center gap-3">
             <h3 className="text-lg font-semibold text-gray-900">Tasks</h3>
             <Badge variant="secondary" className="text-xs">
-              {tasks.length} total
+              {totalTasks} total
             </Badge>
             {selectedTasks.size > 0 && (
               <Badge

@@ -1,6 +1,3 @@
-export const useAuth = () => {
-  const user = { role: "Admin" };
-  const isLoading = false;
+import { useAppSelector } from "@/store/store.hppks";
 
-  return { user, isLoading };
-};
+export const useAuth = () => {};
