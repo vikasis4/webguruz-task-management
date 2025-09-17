@@ -1,4 +1,4 @@
-import { JwtPayload } from "@/middlewares/jwt.middlleware";
+import { JwtPayload } from "@repo/dto/jwt";
 
 declare global {
   namespace Express {

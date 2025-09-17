@@ -1,135 +1,142 @@
-# Turborepo starter
+# Task Master
 
-This Turborepo starter is maintained by the Turborepo core team.
+> **📖 For detailed project documentation and explanation, please visit: [Project Documentation](https://docs.google.com/document/d/1V2UdXDAeE1iRs6zQpTVHdb4T5nWZXshNNd9qStffN0E/edit?usp=sharing)**
 
-## Using this example
+A high-performance monorepo built with Turborepo, designed for scalable development and optimized build processes.
 
-Run the following command:
+## 🚀 Quick Start
 
-```sh
-npx create-turbo@latest
+### Prerequisites
+
+Before you begin, ensure you have the following installed on your system:
+
+- **Node.js** (version 16.x or higher)
+- **pnpm** package manager
+
+#### Installing pnpm
+
+If you don't have pnpm installed, you can install it globally using one of these methods:
+
+```bash
+npm install -g pnpm
 ```
 
-## What's inside?
+## ⚙️ Setup Instructions
 
-This Turborepo includes the following packages/apps:
+### 1. Clone the Repository
 
-### Apps and Packages
+### 2. Environment Configuration
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+Create your environment configuration files by copying from the provided examples:
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+```bash
+# Copy the environment example file
+cp .env.example .env
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+#### Required Environment Variables
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+Update your `.env` file with the following required configurations:
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+- **MongoDB URI**: Add your MongoDB connection string
 
-### Develop
+  ```
+  MONGODB_URI=mongodb://localhost:27017/your-database-name
+  ```
 
-To develop all apps and packages, run the following command:
+- **Redis URI**: Add your Redis connection string
+  ```
+  REDIS_URI=redis://localhost:6379
+  ```
 
-```
-cd my-turborepo
+> **💡 Note**: If you don't have a Redis instance, you can:
+>
+> - Use the Redis URI provided in `.env.example`
+> - Or run a local Redis instance using Docker:
+>   ```bash
+>   docker run -d -p 6379:6379 redis:alpine
+>   ```
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+### 3. Install Dependencies
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+```bash
+pnpm install
 ```
 
-### Remote Caching
+## 🛠️ Development Commands
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+### Clean Build Artifacts
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+Remove all build and dist folders across the monorepo, whenever there are issues with project:
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+```bash
+pnpm run clean
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+### Install Dependencies
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+Install all dependencies for the entire monorepo:
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+```bash
+pnpm install
 ```
 
-## Useful Links
+### Build the Project
 
-Learn more about the power of Turborepo:
+Build all packages and applications:
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+```bash
+turbo run build
+```
+
+### Start the Application
+
+Start all applications in production mode:
+
+```bash
+turbo run start
+```
+
+### Development Mode
+
+Start the development server with hot reload:
+
+```bash
+turbo run dev
+```
+
+## 📁 Project Structure
+
+```
+├── apps/                 # Applications
+├── packages/             # Shared packages
+├── docs/                 # Project documentation
+├── .env.example          # Environment variables template
+├── turbo.json           # Turborepo configuration
+├── package.json         # Root package configuration
+└── README.md            # This file
+```
+
+## 🐳 Docker Support
+
+If you prefer using Docker for your database services:
+
+### MongoDB with Docker
+
+```bash
+docker run -d \
+  --name mongodb \
+  -p 27017:27017 \
+  -e MONGO_INITDB_ROOT_USERNAME=admin \
+  -e MONGO_INITDB_ROOT_PASSWORD=password \
+  mongo:latest
+```
+
+### Redis with Docker
+
+```bash
+docker run -d \
+  --name redis \
+  -p 6379:6379 \
+  redis:alpine
+```

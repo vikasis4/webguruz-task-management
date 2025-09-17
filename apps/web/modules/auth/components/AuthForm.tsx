@@ -60,11 +60,11 @@ export function AuthForm({ type }: AuthFormProps) {
     if (!response.data || response.data?.status !== 200)
       return toast.error(response.data?.message || "Something went wrong");
 
-    dispatch(authActions.setUser(response.data.user));
+    dispatch(authActions.setUser(response?.data?.data?.user));
 
     setIsLoading(true);
 
-    toast.success(response.data.message);
+    toast.success(response.data?.message);
     router.push("/");
   }
 

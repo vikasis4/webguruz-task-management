@@ -1,3 +1,5 @@
+import mongoose, { Document } from "mongoose";
+
 export type IUserRole = "admin" | "user";
 export enum UserRole {
   Admin = "admin",

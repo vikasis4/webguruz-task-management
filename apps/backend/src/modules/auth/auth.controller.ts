@@ -5,7 +5,6 @@ import { User } from "@/models/user.model";
 import { createToken } from "@/middlewares/jwt.middlleware";
 import { ResponseObject } from "@/middlewares/catchAsync.middleware";
 import AuthService from "./auth.service";
-import { IUser } from "@repo/dto/modules/user";
 import { redisClient } from "@/utils/redis";
 
 class AuthController {
@@ -21,7 +20,13 @@ class AuthController {
     return {
       status: 200,
       message: "Login successful",
-      data: { user },
+      data: {
+        user: {
+          userId: user._id,
+          role: user.userRole,
+          tokenVersion: user.tokenVersion,
+        },
+      },
       cookie: [
         {
           key: "Authorization",
@@ -38,13 +43,16 @@ class AuthController {
     const user = await User.create(payload);
     const token = await createToken(user);
 
-    const data: Partial<IUser> = user.toObject();
-    delete data.password;
-
     return {
       status: 200,
       message: "Register successful",
-      data: { user: data },
+      data: {
+        user: {
+          userId: user._id,
+          role: user.userRole,
+          tokenVersion: user.tokenVersion,
+        },
+      },
       cookie: [
         {
           key: "Authorization",

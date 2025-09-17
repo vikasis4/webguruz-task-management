@@ -9,11 +9,7 @@ function getRoutes(app: Express.Application) {
     const files = fs.readdirSync(currentDir);
 
     const filteredFiles = files.filter(
-      (file) =>
-        (file !== "index.route.ts" &&
-          file !== "index.route.js" &&
-          file.endsWith(".ts")) ||
-        file.endsWith(".js")
+      (file) => !file.includes("index") && !file.endsWith(".js.map")
     );
 
     for (let file of filteredFiles) {

@@ -1,3 +1,5 @@
+import mongoose, { Document } from "mongoose";
+
 export type ITaskStatus = "pending" | "in-progress" | "completed";
 export type ITaskPriority = "low" | "medium" | "high";
 
