@@ -1,10 +1,16 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, CookieOptions } from "express";
 import { logger } from "@/utils/logger";
 
-interface ResponseObject {
+export interface ResponseObject {
   status: number;
   data?: any;
   message: string;
+  errors?: any;
+  cookie?: Array<{
+    key: string;
+    value: string;
+    options?: CookieOptions;
+  }>;
 }
 
 export const catchAsync =
@@ -18,6 +24,10 @@ export const catchAsync =
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const result = await fn(req, res, next);
+
+      if (result.cookie)
+        for (const cookie of result.cookie)
+          res.cookie(cookie.key, cookie.value, cookie.options ?? {});
 
       res.status(200).json({
         status: result.status,
@@ -33,6 +43,7 @@ export const catchAsync =
         status: err.statusCode || 500,
         data: {},
         message: err.message || "Internal Server Error",
+        errors: err.errors || [],
       });
     }
   };

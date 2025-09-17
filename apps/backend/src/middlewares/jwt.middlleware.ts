@@ -1,16 +1,12 @@
 import jwt, { SignOptions } from "jsonwebtoken";
-import { IUser, IUserRole, UserSchemaModel } from "@/models/user.schema";
+import { User } from "@/models/user.model";
 import { redisClient } from "@/utils/redis";
 import { envs } from "@/utils/process.env";
+import { IUser } from "@repo/dto/modules/user";
+import { JwtPayload } from "@repo/dto/jwt";
 
 const JWT_SECRET = envs.JWT_SECRET as string;
 const JWT_EXPIRES_IN = parseInt(envs.JWT_EXPIRES_IN || "3600");
-
-export interface JwtPayload {
-  userId: string;
-  tokenVersion: number;
-  role: IUserRole;
-}
 
 export const createToken = async (user: IUser) => {
   const payload: JwtPayload = {
@@ -34,16 +30,22 @@ export const verifyToken = async (token: string) => {
       const version = await redisClient.get(
         `user:${payload.userId}:tokenVersion`
       );
-      if (version && Number(version) !== payload.tokenVersion) {
-        throw new Error("Token invalid due to version mismatch");
-      }
-    } else {
-      const user = await UserSchemaModel.findById(payload.userId);
 
-      if (!user) throw new Error("User not found");
-      if (user.tokenVersion !== payload.tokenVersion) {
-        throw new Error("Token invalid due to version mismatch");
+      if (!version) {
+        const user = await User.findById(payload.userId).select("tokenVersion");
+
+        if (!user) throw new Error("User not found");
+        if (user.tokenVersion !== payload.tokenVersion)
+          throw new Error("Token invalid due to version mismatch");
+
+        await redisClient.set(
+          `user:${user._id}:tokenVersion`,
+          user.tokenVersion.toString()
+        );
       }
+
+      if (Number(version) !== payload.tokenVersion)
+        throw new Error("Token invalid due to version mismatch");
     }
 
     return payload;
@@ -53,7 +55,7 @@ export const verifyToken = async (token: string) => {
 };
 
 export const revokeTokens = async (userId: string) => {
-  const user = await UserSchemaModel.findById(userId);
+  const user = await User.findById(userId);
   if (!user) throw new Error("User not found");
 
   user.tokenVersion += 1;

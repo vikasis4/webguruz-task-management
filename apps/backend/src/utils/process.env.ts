@@ -14,6 +14,7 @@ const schema = z.object({
   JWT_SECRET: z.string().min(1),
   REDIS_URL: z.string().min(1),
   JWT_EXPIRES_IN: z.string().min(1),
+  API_KEY: z.string().min(1),
 });
 
 export const envs = schema.parse(process.env);

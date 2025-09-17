@@ -1,24 +1,36 @@
 import { logger } from "@/utils/logger";
 import fs from "fs";
+import path from "path";
 import Express from "express";
 
 function getRoutes(app: Express.Application) {
-  fs.readdir(".", (err, files) => {
-    if (err) return logger.error("Error reading directory:", err);
+  try {
+    const currentDir = __dirname;
+    const files = fs.readdirSync(currentDir);
 
-    const filteredFiles = files.filter((file) => !file.includes("index"));
+    const filteredFiles = files.filter(
+      (file) =>
+        (file !== "index.route.ts" &&
+          file !== "index.route.js" &&
+          file.endsWith(".ts")) ||
+        file.endsWith(".js")
+    );
 
     for (let file of filteredFiles) {
-      const module = require(`./${file}`);
-      const def = module.default;
-      const routeName = def.routeName;
+      const module = require(path.join(currentDir, file));
+      const routerModule = module.default;
+      const { routeName } = module;
+      const router = routerModule;
 
-      if (!def.router) throw new Error("No router found");
-      if (!routeName) throw new Error("No route name found");
+      if (!router) throw new Error(`Router not found for file: ${file}`);
+      if (!routeName) throw new Error(`Route name not found for file: ${file}`);
 
-      app.use(routeName, def);
+      app.use(`/api/${routeName}`, router);
     }
-  });
+  } catch (err: any) {
+    logger.error("Error setting up routes:", err);
+    throw err;
+  }
 }
 
 export default getRoutes;
